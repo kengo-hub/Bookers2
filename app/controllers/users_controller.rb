@@ -1,34 +1,21 @@
 class UsersController < ApplicationController
-  
+  def show
+    @user = User.find(params[:id])
+    @book = Book.new
+  end
   def edit
-    @book = Book.find(params[:id])
+    @user = User.find(params[:id])
   end
-  
   def update
-    @book = Book.find(params[:id])
-    if @book.update(book_params)
-      flash[:notice] = "Book was successfully updated."
-      redirect_to book_path(@book)
-    else
-      render "edit"
-    end
+    @user = User.find(params[:id])
+    @user.update(user_params)
+    redirect_to user_path(@user.id)
   end
-  
-  def destroy
-    book = Book.find(params[:id])
-    book.destroy
-    redirect_to books_path
-  end
-    
   
   private
-  def book_params
-    params.require(:book).permit(:title, :body)
+
+  def user_params
+    params.require(:user).permit(:name, :profile_image)
   end
 
-end
-  
-  
-  
-  
 end
