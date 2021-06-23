@@ -1,0 +1,37 @@
+<div class="container px-5 px-sm-0">
+  <div class="row">
+<%= render 'books/index', user: @user,book: @book_ %>
+
+<div class="col-md-8 offset-md-1">
+  		<h2>Book detail</h2>
+  		<table class="table">
+  		  <tbody>
+  		    <tr>
+          <td>
+            <%= link_to user_path(@user) do %>
+            <%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format:'jpeg', fallback:"no_image.jpg" %><br>
+            <%= @user.name %>
+            <% end %>
+            </a>          
+          </td>
+          <td>
+            <%= link_to book_path(@book) do %>
+          <%= @book.title %>
+        <% end %>
+          </td>
+          <td>
+            <%= @book.body %>
+          </td>
+            <td>
+              <a class="btn btn-sm btn-success edit_book_703" href="/books/703/edit">Edit</a>
+            </td>
+            <td>
+              <a data-confirm="本当に消しますか？" class="btn btn-sm btn-danger destroy_book_703" rel="nofollow" data-method="delete" href="/books/703">Destroy</a>
+            </td>
+        </tr>
+      </tbody>
+      </table>
+    </div>
+
+</div>
+</div>
