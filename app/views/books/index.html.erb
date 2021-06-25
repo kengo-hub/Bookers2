@@ -1,7 +1,19 @@
+<% if @book.errors.any? %>
+     <h3 style="color: red"><%= @book.errors.count %>error prohibited this book from being saved:</h3>
+     <div id="error_explanation">
+       <ul style="color: red">
+         <% @book.errors.full_messages.each do |message| %>
+           <li><%= message %></li>
+         <% end %>
+       </ul>
+      </div>
+   <% end %>
+
+
 <div class="container px-5 px-sm-0">
   <div class="row">
     <div class="col-md-3">
-<h2>Users info</h2>
+<h2>User info</h2>
 <%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format:'jpeg', fallback:"no_image.jpg" %>
 <table class="table">
   <tbody><tr></tr>
@@ -14,12 +26,13 @@
 	  <th><%= @user.introduction %></th>
   </tr>
 </tbody></table>
+
 <p><%= link_to"", edit_user_path(@user), class: 'btn btn-outline-secondary btn-block fas fa-user-cog' %></p>
- 
+
 
 
 <h2>New book</h2>
-<%= form_with model: @book, url:'/books', local:true do |f| %>
+<%= form_with model: @book, local:true do |f| %>
   <div>
     <label>Title</label>
   </div>  
@@ -40,7 +53,7 @@
 
 <div class="col-md-8 offset-md-1">
   <h2>Books</h2>
-  <table>
+  <table class="table table-hover table-inverse">
     <thead>
       <tr>
         <th></th>
@@ -52,11 +65,10 @@
     <% @books.each do |book| %>
     <tbody>
       <tr>
-        <td><%= link_to user_path(@user) do %>
-            <%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format:'jpeg', fallback:"no_image.jpg" %><br>
-            <%= @user.name %>
+        <td><%= link_to user_path(book.user) do %>
+            <%= attachment_image_tag book.user, :profile_image, :fill, 100, 100, format:'jpeg', fallback: "no_image.jpg" %><br>
             <% end %></td>
-        <td><%= book.title %></td>
+        <td><%= link_to book.title, book_path(book)  %></td>
         <td><%= book.body %></td>
       </tr>
     </tbody>

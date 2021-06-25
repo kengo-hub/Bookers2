@@ -1,6 +1,18 @@
+<% if @book.errors.any? %>
+     <h3 style="color: red"><%= @book.errors.count %>error prohibited this book from being saved:</h3>
+     <div id="error_explanation">
+       <ul style="color: red">
+         <% @book.errors.full_messages.each do |message| %>
+           <li><%= message %></li>
+         <% end %>
+       </ul>
+      </div>
+   <% end %>
+
+
 <div class="container px-5 px-sm-0">
   <div class="row">
-<%= render 'books/index', user: @user,book: @book_ %>
+<%= render 'books/index', user: @user,book: @book_new %>
 
 <div class="col-md-8 offset-md-1">
   		<h2>Book detail</h2>
@@ -23,10 +35,14 @@
             <%= @book.body %>
           </td>
             <td>
-              <a class="btn btn-sm btn-success edit_book_703" href="/books/703/edit">Edit</a>
+              <% if @user.id == current_user.id %>
+              <%= link_to "Edit", edit_book_path(@book), class: 'btn btn-sm btn-success' %>
+              <% end %>
             </td>
             <td>
-              <a data-confirm="本当に消しますか？" class="btn btn-sm btn-danger destroy_book_703" rel="nofollow" data-method="delete" href="/books/703">Destroy</a>
+              <% if @user.id == current_user.id %>
+              <%= link_to "Destroy", book_path(@book), class: 'btn btn-sm btn-danger', method: :delete  %>
+              <% end %>
             </td>
         </tr>
       </tbody>
