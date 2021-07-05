@@ -5,13 +5,16 @@ class BooksController < ApplicationController
     @books = Book.all
     @book = Book.new
     @user = current_user
-
+    @comments = PostComment.all
+    
   end
 
   def show
      @book = Book.find(params[:id])
      @book_new = Book.new
      @user = @book.user
+     @post_comment = PostComment.new
+     @comments = PostComment.all
      
      
   end

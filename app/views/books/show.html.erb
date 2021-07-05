@@ -34,6 +34,21 @@
           <td>
             <%= @book.body %>
           </td>
+          <td>
+            <% if @book.favorited_by?(current_user) %>
+          <p>
+          <%= link_to book_favorites_path(@book), method: :delete, class: "favorites" do %>
+          ❤<%= @book.favorites.count %>
+          <% end %>
+          </p>
+          <% else %>
+          <p>
+          <%= link_to book_favorites_path(@book), method: :post do %>
+          💙<%= @book.favorites.count %>
+          <% end %>
+          </p>
+          <% end %>
+          </td>
             <td>
               <% if @user.id == current_user.id %>
               <%= link_to "Edit", edit_book_path(@book), class: 'btn btn-sm btn-success' %>
@@ -44,9 +59,43 @@
               <%= link_to "Destroy", book_path(@book), class: 'btn btn-sm btn-danger', method: :delete  %>
               <% end %>
             </td>
+            <td>
+             <p>コメント件数：<%= @comments.count %></p>
+            </td>
         </tr>
       </tbody>
       </table>
+      <table class="table">
+      <% @comments.each do |comment| %>
+      <tbody>
+        <tr>
+          <td><%= link_to user_path(comment.user) do %>
+              <%= attachment_image_tag comment.user, :profile_image, :fill, 100, 100, format:'jpeg', fallback: "no_image.jpg" %><br>
+              <%= comment.user.name %>
+              <% end %>
+          </td>
+          <td>
+            <%= comment.comment %>
+          </td>
+          <td>
+            <% if comment.user == current_user %>
+            <div class="comment-delete">
+            <%= link_to "Destroy", book_post_comment_path(@book.id, comment.id),class: 'btn btn-sm btn-danger', method: :delete %>
+            </div>
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
+      <% end %>
+      </table>
+              
+      
+      <div class="new-comment">
+        <%= form_with(model:[@book, @post_comment], local: true) do |f| %>
+          <%= f.text_area :comment, rows:'8', cols:'100%' %>
+          <%= f.submit "送信" %>
+        <% end %>
+      </div>
     </div>
 
 </div>
