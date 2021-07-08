@@ -5,17 +5,18 @@ class UsersController < ApplicationController
     @users = User.all
     # @book.user_id = current_user.id
     @user = current_user
+    
   end
   def show
     @user = User.find(params[:id])
     @book = Book.new
     @books = @user.books
   end
-  
+
   def edit
     @user = User.find(params[:id])
   end
-  
+
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
@@ -25,7 +26,23 @@ class UsersController < ApplicationController
       render "edit"
     end
   end
-  
+
+  def following
+    @title = "Following"
+    @user  = User.find(params[:id])
+    @users = @user.following
+    render 'show_follow'
+
+  end
+
+  def followers
+    @title = "Followers"
+    @user  = User.find(params[:id])
+    @users = @user.followers
+    render 'show_follow'
+
+  end
+
   private
 
   def user_params
@@ -37,6 +54,6 @@ class UsersController < ApplicationController
     redirect_to user_path(current_user)
     end
   end
-  
+
 
 end

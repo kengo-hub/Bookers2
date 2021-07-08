@@ -33,6 +33,22 @@
         <%= user.name %>
       </td>
       <td>
+        <% unless current_user == user %>
+        <div id="follow_form">
+          <% if current_user.following?(user) %>
+            <%= form_for(current_user.active_relationships.find_by(followed_id: user.id),
+             html: { method: :delete },
+             local: true) do |f| %>
+          <%= f.submit "フォロー外す", class: "btn btn-primary" %>
+          <% end %>
+
+          <% else %>
+            <%= render 'users/follow' %>
+          <% end %>
+        </div>
+        <% end %>
+      </td>
+      <td>
         <%= link_to "Show",user_path(user) %>
       </td>
     </tr>
